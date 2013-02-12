@@ -1,0 +1,8 @@
+
+public class IncSubseq {
+	
+	public static int[] lis(Object[] o){
+		return null;
+	}
+	
+}

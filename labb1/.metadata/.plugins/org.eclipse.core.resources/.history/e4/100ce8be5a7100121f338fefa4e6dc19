@@ -1,0 +1,41 @@
+import java.util.ArrayList;
+
+/**
+ * 
+ * @author Filip Gauffin, filipgau@kth.se
+ *
+ * Finds the positions of a pattern within a text 
+ *
+ */
+public class StringMatching {
+	
+	/**
+	 * Check if the text for the given pattern. Tries to find the fist letter of 
+	 * pattern in text and then moves on to match the rest of the characters of pattern.
+	 * 
+	 * @param pattern
+	 * @param text
+	 * @return indices of occurence
+	 */
+	public static ArrayList<Integer> find(String pattern, String text){
+		ArrayList<Integer> res = new ArrayList<Integer>();
+		int pat = pattern.hashCode();
+		int t = text.subSequence(0, pattern.length()).hashCode();
+		int character;
+		int i2;
+		for(int i = 0; i < text.length()-pattern.length(); i++){
+			t = text.subSequence(i, i+pattern.length()).hashCode();
+			if(t == pat){
+				res.add(i);
+				break;
+			}
+			
+		}
+		
+		return res;
+	}
+	public ArrayList<Integer> find(ArrayList<String> pattern, String text){
+		
+		return null;
+	}
+}

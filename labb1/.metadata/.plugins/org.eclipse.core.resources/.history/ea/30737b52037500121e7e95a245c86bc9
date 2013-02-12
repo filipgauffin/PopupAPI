@@ -1,0 +1,230 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+ 
+/**
+ * 
+ * @author Andreas Brytting, Filip Gauffin
+ *      A trie over one or more patterns
+ * @param <T> The type you want to store at the end of each pattern, eg. the string
+ */
+public class StringMatching<T> {
+        
+        public Node<T> root;
+        private HashMap<Node<T>, ArrayList<Integer>> patterns;
+        private Node<T> fallback;
+        public int node_code = 0;
+        
+        /**
+         * Add the given string to the trie
+         * @param s
+         */
+        public void insert(String s){
+                Node<T> n = root;
+                for(int i = 0; i < s.length(); i++){
+                        n = n.setChild(s.charAt(i), node_code);
+                        node_code++;
+                }
+                n.setWordEnd(true);
+        }
+        /**
+         * Add the given string to the trie and assign the last node a value
+         * @param s
+         * @param word
+         */
+        public void insertWord(String s, T word){
+                Node<T> n = root;
+                for(int i = 0; i < s.length(); i++){
+                        n = n.setChild(s.charAt(i), node_code);
+                        node_code++;
+                }
+                n.setWordEnd(true);
+                n.setWord(word);
+        }
+        /**
+         * Check if the trie contains the given string
+         * @param s
+         * @return
+         */
+        public boolean find(String s){
+                Node<T> n = root;
+                for(int i = 0; i < s.length(); i++){
+                        n = n.child(s.charAt(i));
+                        if(n == null){
+                                return false;
+                        }
+                }
+                if(n.isWordEnd()) return true;
+                return false;
+        }
+        /**
+         * Searches the trie for a given string and returns the value at the end
+         * @param s
+         * @return
+         */
+        public T findWord(String s){
+                Node<T> n = root;
+                for(int i = 0; i < s.length(); i++){
+                        n = n.child(s.charAt(i));
+                        if(n == null){
+                                return null;
+                        }
+                }
+                if(n.isWordEnd()) return n.getWord();
+                return null;
+        }
+        public ArrayList<Integer> find(String pattern, String text){
+        	
+        }
+        public ArrayList<Integer>[] find(String[] patterns, String text){
+        	search(text, patterns);
+        }
+        /**
+         * Construct the trie given the strings in s
+         * 
+         * @param s
+         */
+        private void treeConstruct(String[] s){
+                patterns = new HashMap<Node<T>, ArrayList<Integer>>();
+                root = new Node<T>('\0', node_code);
+                patterns.put(root, new ArrayList<Integer>());
+                node_code++;
+                for(int i = 0; i < s.length; i++){
+                        Node<T> v = root;
+                        int j = 0;
+                        while(j < s[i].length() && v.child(s[i].charAt(j)) != null){
+                                v = v.child(s[i].charAt(j));
+                                j++;
+                        }
+                        while(j < s[i].length()){
+                                Node<T> u = new Node<T>(s[i].charAt(j), node_code);
+                                node_code++;
+                                patterns.put(u, new ArrayList<Integer>());
+                                v.children.put(s[i].charAt(j), u);
+                                v = u;
+                                j++;
+                        }
+                        v.word = (T) s[i];
+                        patterns.get(v).add(i);
+                }
+        }
+        /**
+         * Creates the pointers for travelling upwards and sideways through the trie when mismatch occurs
+         */
+        private void setFallback() {
+                fallback = new Node<T>(root);
+                root.fall = fallback;
+                LinkedList<Node<T>> q = new LinkedList<Node<T>>();
+                q.add(root);
+                while (!q.isEmpty()) {  //BFS through the trie
+                        Node<T> current = q.poll();
+                        for (Node<T> v : current.children.values()) {
+                                Node<T> w = current.fall;
+                                while (w.child(v.c) == null) w = w.fall;
+                                v.fall = w.child(v.c);
+                                patterns.get(v).addAll(patterns.get(v.fall));
+                                q.addLast(v);
+                        }
+                }
+        }
+        /**
+         * Search the given text for occurrences of the patterns by inserting in to a try functioning
+         * as an automaton.
+         * 
+         * @param text
+         * @return An array of ArrayLists.
+         * The ArrayLists of index i contains the indices in the text of the i:th pattern entered into the trie
+         */
+        public ArrayList<Integer>[] search(String text, String[] s){
+                ArrayList<Integer>[] result = (ArrayList<Integer>[]) new ArrayList[s.length];
+                for (int i=0; i<s.length; i++) result[i] = new ArrayList<Integer>();
+                treeConstruct(s);
+                setFallback();
+                
+                Node<T> n = root;
+                for(int j = 0; j < text.length(); j++){
+                        while(n.child(text.charAt(j)) == null) n = n.fall;
+                        n = n.child(text.charAt(j));
+                        
+                        
+                        for(Integer i : patterns.get(n)){
+                                result[i].add(j-s[i].length()+1);
+                        }
+                }
+                return result;
+        }
+        /**
+         * A node in the trie
+         *
+         * @param <T> The type of data stored in a node
+         */
+        class Node<T>{
+                public char c;
+                private boolean wordEnd = false;
+                public T word;
+                private Node<T> parent;
+                public int depth;
+                public Node<T> fall;
+                public HashMap<Character, Node<T>> children;
+                public Node<T> child;
+                public final int hashCode;
+                
+                public Node(char c, int i){
+                        hashCode = i;
+                        children = new HashMap<Character, Node<T>>();
+                        this.c = c;
+                        depth=0;
+                }
+                public Node(Node<T> n){
+                        hashCode = Integer.MAX_VALUE;
+                        c = '\0';
+                        child = n;
+                }
+                
+                /**
+                 * Returns the child node following value c
+                 * @param c
+                 * @return
+                 */
+                public Node<T> child(char c){
+                        if(child != null){
+                                return child;
+                        }
+                        return children.get(c);
+                }
+                
+                /**
+                 * Creates a new child following value c and returns it
+                 * If such a child already exists, just return
+                 * @param c
+                 * @return
+                 */
+                public Node<T> setChild(char c, int i){
+                        if(children.containsKey(c)){
+                                return children.get(c);
+                        }
+                        Node<T> n = new Node<T>(c, i);
+                        n.parent = this;
+                        n.depth=depth+1;
+                        
+                        children.put(c, n);
+                        return n;
+                }
+                
+                public T getWord(){
+                        return word;
+                }
+                public void setWord(T word){
+                        this.word = word;
+                }
+                public int hashCode(){
+                        return hashCode;
+                }
+                public boolean isWordEnd() {
+                        return wordEnd;
+                }
+                public void setWordEnd(boolean wordEnd) {
+                        this.wordEnd = wordEnd;
+                }
+        }
+}

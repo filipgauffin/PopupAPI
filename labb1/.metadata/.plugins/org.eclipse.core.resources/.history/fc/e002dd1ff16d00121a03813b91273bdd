@@ -1,0 +1,59 @@
+
+public class DisjMangd implements Ekvivalensrelationer{
+	
+	private int[] p;
+	private int[] rank;
+	
+	public DisjMangd(int elem){
+		p = new int[elem];
+		rank = new int[elem];
+	}
+
+	@Override
+	public void union(int a, int b) {
+		// TODO Auto-generated method stub
+		int x = find(a);
+		int y = find(b);
+		if(x != y){
+			link(x, y);
+		}
+	}
+
+	@Override
+	public boolean same(int a, int b) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void move(int a, int b) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void makeSet(int a) {
+		p[a] = a;
+	}
+	@Override
+	public int find(int a) {
+		// TODO Auto-generated method stub
+		if(p[a] != a){
+			p[a] = find(p[a]);
+		}
+		return p[a];
+	}
+	@Override
+	public int link(int a, int b) {
+		// TODO Auto-generated method stub
+		if(rank[a] > rank[b]){
+			p[a] = b;
+		}
+		else{
+			p[b] = a;
+			if(rank[a] == rank[b]){
+				rank[a]++;
+			}
+		}
+		return 0;
+	}
+}

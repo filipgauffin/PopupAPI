@@ -1,0 +1,6 @@
+
+public interface Ekvivalensrelationer {
+	void union(int a, int b);
+	boolean same(int a, int b);
+	void move(int a, int b);
+}

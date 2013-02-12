@@ -1,0 +1,37 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+
+public class Main {
+	public static void main(String[] args) throws IOException{
+		Kattio io = new Kattio(new FileInputStream("test/test"), System.out);
+		//Kattio io = new Kattio(System.in, System.out);
+		
+		BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream("test/test")));
+		
+		long time = System.currentTimeMillis();
+		
+		String pattern, text;
+		ArrayList<Integer> res;
+		while((pattern = r.readLine()) != null){
+			//pattern = io.getLine();
+			text = io.getLine();
+			
+			res = StringMatching.find(pattern, text);
+			
+			for(Integer i : res){
+				System.out.print(i);
+			}
+			io.println();
+		}
+		
+		System.out.println("Time: " + (System.currentTimeMillis() - time));
+		
+		io.close();
+		
+	}
+}

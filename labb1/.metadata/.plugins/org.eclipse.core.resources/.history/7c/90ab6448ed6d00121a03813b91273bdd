@@ -1,0 +1,11 @@
+
+public interface Ekvivalensrelationer {
+	/**
+	 * Union the sets containing both a and b
+	 * @param a
+	 * @param b
+	 */
+	void union(int a, int b);
+	boolean same(int a, int b);
+	void move(int a, int b);
+}

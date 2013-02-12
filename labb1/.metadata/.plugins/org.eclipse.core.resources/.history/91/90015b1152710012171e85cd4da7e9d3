@@ -1,0 +1,7 @@
+
+public class StringMatching {
+	
+	ArrayList<Integer> find(String pattern, String text){
+		
+	}
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="FenwickTreeTest" project="PrefixSum" tests="10" started="10" failures="0" errors="0" ignored="0">
+  <testsuite name="FenwickTreeTest" time="3.135">
+    <testcase name="testSimpleAdd" classname="FenwickTreeTest" time="0.001"/>
+    <testcase name="testSimpleAddAtZeroPosition" classname="FenwickTreeTest" time="0.0"/>
+    <testcase name="testMulipleAdd" classname="FenwickTreeTest" time="0.0"/>
+    <testcase name="testMulipleAddToMulipleValues" classname="FenwickTreeTest" time="0.0"/>
+    <testcase name="testLargeNumberOfAdds" classname="FenwickTreeTest" time="0.0"/>
+    <testcase name="testGetIndividualFrequency" classname="FenwickTreeTest" time="0.0"/>
+    <testcase name="findElementCorrespondingToACumulativeFreq" classname="FenwickTreeTest" time="0.0"/>
+    <testcase name="verifyZeroes" classname="FenwickTreeTest" time="0.0"/>
+    <testcase name="testRescaling" classname="FenwickTreeTest" time="0.0"/>
+    <testcase name="testRandom" classname="FenwickTreeTest" time="3.135"/>
+  </testsuite>
+</testrun>

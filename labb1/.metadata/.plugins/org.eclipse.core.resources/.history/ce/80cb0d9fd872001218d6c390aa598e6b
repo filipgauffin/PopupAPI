@@ -1,0 +1,40 @@
+import java.util.Arrays;
+
+
+public class IncSubseq {
+	
+	public static int[] lis(int[] a){
+		int[] last = new int[a.length];
+		last[0] = Integer.MIN_VALUE;
+		for(int i = 1; i < last.length; i++) last[i] = Integer.MAX_VALUE;
+		
+		int j;
+		for(int i = 0; i < a.length; i++){
+			j = binSearch(a[i], last);
+			last[j] = 
+					a[i];
+		}
+		int i = 1, res_i = 0;
+		j = 0;
+		int[] res = new int[binSearch(Integer.MAX_VALUE-1, last)-1];
+
+		while(i < last.length && last[i] < Integer.MAX_VALUE){
+			while(j < a.length && last[i] != a[j]) j++;
+			res[res_i] = j;
+			i++;
+			res_i++;
+		}
+ 		return res;
+	}
+	private static int binSearch(int a, int[] last){
+		int i =  Arrays.binarySearch(last, a);
+	
+		if(i < 0){
+			i++;
+			i = i*(-1);
+		}
+		
+		return i;
+	}
+	
+}

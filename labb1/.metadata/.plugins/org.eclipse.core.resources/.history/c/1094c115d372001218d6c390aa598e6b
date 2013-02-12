@@ -1,0 +1,16 @@
+
+public class IncSubseq {
+	
+	public static int[] lis(int[] a){
+		int[] last = new int[o.length];
+		last[0] = Integer.MIN_VALUE;
+		for(int i = 1; i < last.length; i++) last[i] = Integer.MAX_VALUE;
+		
+		for(int i = 0; i < o.length; i++){
+			
+		}
+		
+ 		return null;
+	}
+	
+}

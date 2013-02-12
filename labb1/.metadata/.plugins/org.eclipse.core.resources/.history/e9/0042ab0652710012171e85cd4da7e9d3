@@ -1,0 +1,5 @@
+
+public class StringMatching {
+	
+	position[] find(String pattern, String text)
+}

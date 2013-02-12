@@ -1,0 +1,67 @@
+import java.util.HashMap;
+
+
+public class Trie<T> {
+	
+	private Node<T> root = new Node<T>(' ');
+	
+	public Trie(){
+	
+	}
+	public void insert(String s){
+		Node n = root;
+		for(int i = 0; i < s.length(); i++){
+			n = n.setChild(s.charAt(i));
+		}
+		n.setWordEnd(true);
+	}
+	public void insertWord(String s, T word){
+		Node n = root;
+		for(int i = 0; i < s.length(); i++){
+			n = n.setChild(s.charAt(i));
+		}
+		n.setWordEnd(true);
+		n.setWord(word);
+	}
+	
+	class Node<T>{
+		private char c;
+		private Node next;
+		private boolean wordEnd = false;
+		private T word;
+		private HashMap<Character, Node> children;
+		
+		public Node(char c){
+			children = new HashMap<Character, Node>();
+			this.c = c;
+		}
+		public Node child(char c){
+			return children.get(c);
+		}
+		public Node setChild(char c){
+			if(children.containsKey(c)){
+				return children.get(c);
+			}
+			Node n = new Node<T>(c);
+			
+			children.put(c, n);
+			return n;
+		}
+		
+		public T getWord(){
+			return word;
+		}
+		public void setWord(T word){
+			this.word = word;
+		}
+		public int hashCode(){
+			return c;
+		}
+		public boolean isWordEnd() {
+			return wordEnd;
+		}
+		public void setWordEnd(boolean wordEnd) {
+			this.wordEnd = wordEnd;
+		}
+	}
+}

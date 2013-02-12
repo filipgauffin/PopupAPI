@@ -1,0 +1,18 @@
+
+public interface Ekvivalensrelationer {
+	/**
+	 * Union the sets containing a and b
+	 * @param a
+	 * @param b
+	 */
+	void union(int a, int b);
+	/**
+	 * Check if a and b are in the same set. Returns true if they are
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	boolean same(int a, int b);
+	void move(int a, int b);
+}

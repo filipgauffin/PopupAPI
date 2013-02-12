@@ -1,0 +1,70 @@
+import java.util.ArrayList;
+
+/**
+ * 
+ * @author Filip Gauffin, filipgau@kth.se
+ *
+ * Finds the positions of a pattern within a text 
+ *
+ */
+public class StringMatching {
+	
+	/**
+	 * Check if the text for the given pattern. Tries to find the fist letter of 
+	 * pattern in text and then moves on to match the rest of the characters of pattern.
+	 * 
+	 * @param pattern
+	 * @param text
+	 * @return indices of occurence
+	 */
+	public static ArrayList<Integer> find(String pattern, String text){
+		ArrayList<Integer> res = new ArrayList<Integer>();
+
+		
+		return res;
+		
+		int[] next = prefix(pattern);
+		int i=0, j=0;
+		while (i<text.length()) { 
+			while (j>=0 && text.charAt(i)!=pattern.charAt(j))
+				j = next[j];
+			i++; j++;
+			if (j==pattern.length()){
+				res.add(i-pattern.length());
+				j = next[j];
+			}
+		}
+		return res;
+	}
+	/*
+	public static ArrayList<Integer> find(String pattern, String text){
+		ArrayList<Integer> res = new ArrayList<Integer>();
+		int pat = pattern.hashCode();
+		int t;
+		for(int i = 0; i < text.length()-pattern.length()+1; i++){
+			t = text.subSequence(i, i+pattern.length()).hashCode();
+			if(t == pat){
+				res.add(i);
+			}
+		}
+		
+		return res;
+	}*/
+	public ArrayList<Integer> find(ArrayList<String> pattern, String text){
+		
+		return null;
+	}
+	public static int[] prefix(String pattern){
+		int[] next = new int[pattern.length()];
+		int i=0, j=-1;
+		next[0]=-1;
+		while (i<pattern.length()-1) {
+			while (j>=0 && pattern.charAt(i)!=pattern.charAt(j))
+				j = next[j];
+			i++; 
+			j++;
+			next[i] = j;
+		}
+		return next;
+	}
+}

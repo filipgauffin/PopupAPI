@@ -1,0 +1,105 @@
+
+/**
+ * 
+ * @author Filip Gauffin, filipgau@kth.se
+ *
+ */
+public class PrefixSum {
+	private int[] i;
+	private int counter = 0;
+	private int greatest_num = 0;
+	private int two_base_size;
+	
+	/**
+	 * New PrefixSum with array i
+	 * 
+	 * @param i
+	 */
+	public PrefixSum(int[] i){
+		this.i = i;
+		two_base_size = size(i.length);
+	}
+	/**
+	 * New PrefixSum with array of length size
+	 * 
+	 * @param size
+	 */
+	public PrefixSum(int size){
+		two_base_size = size(size);
+		i = new int[size];
+	}
+	/**
+	 * Add element elem to array in next available spot
+	 * 
+	 * @param elem
+	 */
+	public void addElem(int elem){
+		i[counter] = elem;
+		counter++;
+	}
+	/**
+	 * Add delta to int at position last
+	 * 
+	 * @param last
+	 * @param delta
+	 */
+	public void add(int last, int delta){
+		if(last == two_base_size - 1){
+			greatest_num += delta;
+		}
+		else{
+			int ind = two_base_size + last;
+			int next;
+			while(ind > 1){
+				next = ind / 2;
+				if(ind % 2 == 0){
+					i[next] += delta;
+				}
+				ind = next;
+			}
+		}
+	}
+	/**
+	 * Sum each number starting from last to first.
+	 * 
+	 * @param last
+	 * @return
+	 */
+	public int sum(int last){
+		int sum = 0;
+		int index;
+		if(last == two_base_size - 1){
+			sum = greatest_num;
+			ind = two_base_size + last-1;
+		}
+		else{
+			sum = 0;
+			ind = two_base_size + last;
+		}
+		int next;
+		while(ind > 1){
+			next = ind / 2;
+			if(ind % 2 == 1){
+				sum += i[next];
+			}
+			ind = next;
+		}
+		return sum;
+	}
+	/**
+	 * Return 2^x such that 2^(x-1) < size < 2^x
+	 * 
+	 * @param size
+	 * @return
+	 */
+	private int size(int size){
+		/**
+		 * Ugly but does the trick in at most 32 loops
+		 */
+		int new_size = 1;
+		while(new_size < size){
+			new_size <<= 1; 
+		}
+		return new_size;
+	}
+}

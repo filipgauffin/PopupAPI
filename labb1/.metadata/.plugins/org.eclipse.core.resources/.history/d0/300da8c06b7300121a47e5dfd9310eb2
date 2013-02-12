@@ -1,0 +1,102 @@
+import java.util.Arrays;
+
+/**
+ * 
+ * @author Filip Gauffin, filipgau@kth.se
+ * 
+ * Find the longest increasing subsequence of a list 
+ * returning indices of the elements in the subsequence.
+ *
+ */
+public class IncSubseq {
+	
+	/**
+	 * Find the longest increasing subsequence of list a.
+	 * Return the indices of the elements in the subsequence in ascending order.
+	 * Complexity O(nlogn)
+	 *  
+	 * @param a
+	 * @return
+	 */
+	public static int[] lis(int[] a){
+		int[] last = new int[a.length + 1];
+		int[] indices = new int[a.length];
+		int[] indices2 = new int[a.length+10];
+ 		last[0] = Integer.MIN_VALUE;
+		for(int i = 1; i < last.length; i++) last[i] = Integer.MAX_VALUE;
+		
+		int j, L = 0;
+		for(int i = 0; i < a.length; i++){
+			j = binSearch(a[i], last);
+			last[j] = a[i];
+			indices[i] = indices2[j]; 
+			if(j == L || a[i] < a[indices2[j+1]]){
+				L = Math.max(L,  j+1);
+			}
+			//print(last);
+		}
+		
+		int[] res = new int[binSearch(Integer.MAX_VALUE-1, last)-1];
+
+		int i = res.length, res_i = res.length-1;
+		j = a.length-1;
+		
+		int num = last[i];
+		int num_last = Integer.MAX_VALUE;
+		int num_i = i-1;
+		
+		/* Recreate the indices by going from the largest element */
+		while(num_i >= 0){
+			while(j > 0 && (num > a[j] || a[j] >= num_last)) j--;
+			res[res_i] = j;
+			num_last = a[j];
+			num = last[num_i];
+			//j--;
+			num_i--;
+			res_i--;
+		}
+		
+		res = getRes(L-1, indices, new int[L], indices2[L]);
+		
+ 		return res;
+	}
+	private static int[] getRes(int l, int[] indices, int[] res, int i) {
+		if(l < 0) return res; 
+		System.out.println(l);
+		res[l] = i;
+		
+		return getRes(l-1, indices, res, indices[i]);
+	}
+	/**
+	 * Binary search over last for a.
+	 * Return index of a if a is in the list, else return
+	 * index of first element greater than a.
+	 * Complexity O(logn)
+	 * 
+	 * @param a
+	 * @param last
+	 * @return
+	 */
+	private static int binSearch(int a, int[] last){
+		int i =  Arrays.binarySearch(last, a);
+	
+		if(i < 0){
+			i++;
+			i = i*(-1);
+		}
+		
+		return i;
+	}
+	/**
+	 * Print contents of list l
+	 * 
+	 * @param l
+	 */
+	private static void print(int[] l){
+		System.out.print("{ ");
+		for(int i = 0; i < l.length; i++){
+			System.out.print(l[i] + " ");
+		}
+		System.out.println(" }");
+	}
+}

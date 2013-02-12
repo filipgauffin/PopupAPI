@@ -1,0 +1,24 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+
+public class Trie {
+	
+	private ArrayList<HashMap<Character, Node>> levels;
+	
+	public Trie(){
+		levels = new ArrayList<HashMap<Character, Node>>
+		
+	}
+	
+	class Node{
+		private char c;
+		private Node next;
+		private boolean wordEnd;
+		private int[] children;
+		
+		public Node(char c){
+			this.c = c;
+		}
+	}
+}

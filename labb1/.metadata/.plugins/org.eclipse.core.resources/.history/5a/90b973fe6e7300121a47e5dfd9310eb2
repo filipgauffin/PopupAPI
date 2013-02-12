@@ -1,0 +1,11 @@
+
+public class Trie {
+	class Elem{
+		private char c;
+		private Elem next;
+		private boolean wordEnd;
+		private int[] children;
+		
+		
+	}
+}

@@ -1,0 +1,86 @@
+
+/**
+ * 
+ * @author Filip Gauffin, filipgau@kth.se
+ *
+ * Holds the prefixsum-representation of an array.
+ * Supports insertion (change of element) and sum of all 
+ * elements with smaller index then some given index.
+ *
+ * The array is used as a fenwicktree where even nodes 0, 2, ...  are the leaves holding
+ * the real value for the those indices in the original array.
+ * The odd indices hold a subset sum over the array. This means adding and getting sum
+ * only requires lookup/alteration of a subset of the array equal to the height of the tree, O(logn)
+ * 
+ */
+public class PrefixSum {
+	private long[] i;
+	private int counter = 0;
+	
+	/**
+	 * New PrefixSum using array i
+	 * 
+	 * @param i
+	 */
+	public PrefixSum(long[] i){
+		this.i = i;
+	}
+	/**
+	 * New PrefixSum with array of length size
+	 * 
+	 * @param size
+	 */
+	public PrefixSum(long size){
+		i = new long[size];
+	}
+	/**
+	 * Add element elem to array in next available spot
+	 * 
+	 * @param elem
+	 */
+	public void addElem(int elem){
+		i[counter] = elem;
+		counter++;
+	}
+	/**
+	 * Add delta to int at position last by updating each dependent node in the tree
+	 * 
+	 * @param last
+	 * @param delta
+	 */
+	public void add(long last, long delta){
+		last++;
+		while(last < i.length){
+			i[last] += delta;
+			last += (last & -last);
+			//last = last | (last + 1);
+		}
+	}
+	/**
+	 * Sum of each number starting from given last index (excluding) to first element (0) in the list.
+	 * 
+	 * @param last
+	 * @return
+	 */
+	public int sum(long last){
+		int sum = 0;
+		while(last > 0){
+			sum += i[last];
+			last -= (last & -last);
+			//last = (last & (last + 1)) - 1;
+		}
+		return sum;
+	}
+	/**
+	 * Print contents of list l
+	 * 
+	 * @param l
+	 */
+	private static void print(int[] l){
+		System.out.print("{ ");
+		for(int i = 0; i < l.length; i++){
+			System.out.print(l[i] + " ");
+		}
+		System.out.println(" }");
+	}
+}

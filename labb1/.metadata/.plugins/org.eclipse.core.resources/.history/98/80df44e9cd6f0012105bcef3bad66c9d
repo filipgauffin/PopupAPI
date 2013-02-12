@@ -1,0 +1,30 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+
+public class Main {
+	public static void main(String[] args) throws FileNotFoundException{
+		Kattio io = new Kattio(new FileInputStream("test/test"), System.out);
+		//Kattio io = new Kattio(System.in, System.out);
+		System.out.println("test");
+		int numbers = io.getInt();
+		System.out.println("test");
+		int ops = io.getInt();
+		System.out.println("test");
+		PrefixSum ps = new PrefixSum(numbers);
+		
+		for(int i = 0; i < ops; i++){
+			System.out.println("test2");
+			String token = io.getWord();
+			
+			if(token.equals("+")){
+				ps.add(io.getInt(), io.getInt());
+			}
+			else{
+				io.println(ps.sum(io.getInt()));
+			}
+		}
+		io.close();
+		
+	}
+}

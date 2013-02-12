@@ -1,0 +1,4 @@
+
+public interface Ekvivalensrelationer {
+	union(int a, int b);
+}

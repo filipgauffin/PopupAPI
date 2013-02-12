@@ -1,0 +1,122 @@
+
+/**
+ * 
+ * @author Filip Gauffin, filipgau@kth.se
+ *
+ * Holds the prefixsum-representation of an array.
+ * Supports insertion (change of element) and sum of all 
+ * elements with smaller index then some given index.
+ *
+ */
+public class PrefixSum {
+	private int[] i;
+	private int counter = 0;
+	private int greatest_num = 0;
+	private int two_base_size;
+	
+	/**
+	 * New PrefixSum using array i
+	 * 
+	 * @param i
+	 */
+	public PrefixSum(int[] i){
+		this.i = i;
+		two_base_size = size(i.length);
+	}
+	/**
+	 * New PrefixSum with array of length size
+	 * 
+	 * @param size
+	 */
+	public PrefixSum(int size){
+		two_base_size = size(size);
+		i = new int[two_base_size];
+	}
+	/**
+	 * Add element elem to array in next available spot
+	 * 
+	 * @param elem
+	 */
+	public void addElem(int elem){
+		i[counter] = elem;
+		counter++;
+	}
+	/**
+	 * Add delta to int at position last by updating each dependent node in the tree
+	 * 
+	 * @param last
+	 * @param delta
+	 */
+	public void add(int last, int delta){
+		//if(last == two_base_size - 1){
+			//greatest_num += delta;
+		//}
+		//else{
+		
+		while(last < two_base_size){
+			i[last] += delta;
+			last |= last + 1;
+		}
+		/*
+			int index = two_base_size + last;
+			int next;
+			while(index > 1){
+				next = index / 2;
+				if((index & 1) == 0){
+					i[next] += delta;
+				}
+				index = next;
+			
+			}
+			*/
+		//}
+	}
+	/**
+	 * Sum each number starting from given last index to first element in the list.
+	 * 
+	 * @param last
+	 * @return
+	 */
+	public int sum(int last){
+		int sum = 0;
+		while(last >= 0){
+			
+		}
+		/*
+		int index;
+		if(last == two_base_size - 1){
+			sum = greatest_num;
+			index = two_base_size + last-1;
+		}
+		else{
+			sum = 0;
+			index = two_base_size + last;
+		}
+		int next;
+		while(index > 1){
+			next = index / 2;
+			if((index & 1) == 1){
+				sum += i[next];
+			}
+			index = next;
+		}
+		*/
+		return sum;
+	}
+	/**
+	 * Return 2^x such that 2^(x-1) < size < 2^x
+	 * 
+	 * @param size
+	 * @return
+	 */
+	private int size(int size){
+		/**
+		 * Ugly but does the trick in at most 32 loops
+		 */
+		int new_size = 1;
+		while(new_size < size){
+			new_size <<= 1; 
+		}
+		return new_size;
+	}
+}

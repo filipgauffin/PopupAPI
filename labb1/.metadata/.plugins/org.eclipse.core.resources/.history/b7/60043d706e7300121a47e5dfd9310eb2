@@ -1,0 +1,7 @@
+
+public class Trie {
+	class Elem{
+		private char c;
+		private Elem next;
+	}
+}

@@ -1,0 +1,21 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+
+public class Main {
+	public static void main(String[] args) throws FileNotFoundException{
+		Kattio io = new Kattio(new FileInputStream("test/test"), System.out);
+		//Kattio io = new Kattio(System.in, System.out);
+		
+		int numbers = io.getInt();
+		int ops = io.getInt();
+		PrefixSum ps = new PrefixSum(numbers);
+		
+		while(io.hasMoreTokens()){
+			String pattern = io.getLine();
+			String text = io.getLine();
+		}
+		io.close();
+		
+	}
+}

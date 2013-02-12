@@ -1,0 +1,9 @@
+import java.util.ArrayList;
+
+
+public class StringMatching {
+	
+	public ArrayList<Integer> find(String pattern, String text){
+		
+	}
+}

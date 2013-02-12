@@ -1,0 +1,88 @@
+
+/**
+ * 
+ * @author Filip Gauffin, filipgau@kth.se
+ *
+ */
+public class PrefixSum {
+	private int[] i;
+	private int counter = 0;
+	private int greatest_num = 0;
+	private int size;
+	
+	/**
+	 * 
+	 * @param i
+	 */
+	public PrefixSum(int[] i){
+		this.i = i;
+		size = size(i.length);
+	}
+	public PrefixSum(int size){
+		this.size = size(size);
+		i = new int[this.size];
+	}
+	public void addElem(int elem){
+		i[counter] = elem;
+		counter++;
+	}
+	public void add(int last, int delta){
+		if(last == size - 1){
+			greatest_num += delta;
+		}
+		else{
+			int ind = size + last;
+			int next;
+			while(ind > 1){
+				next = ind / 2;
+				if(ind % 2 == 0){
+					i[next] += delta;
+				}
+				ind = next;
+			}
+		}
+	}
+	public int sum(int last){
+		int sum = 0;
+		int ind;
+		if(last == size - 1){
+			sum = greatest_num;
+			ind = size + last-1;
+		}
+		else{
+			sum = 0;
+			ind = size + last;
+		}
+		int next;
+		while(ind > 1){
+			next = ind / 2;
+			if(ind % 2 == 1){
+				sum += i[next];
+			}
+			ind = next;
+		}
+		return sum;
+	}
+	/*
+	private int removeHighBit(int index) {
+		// TODO Auto-generated method stub
+		int saved = index;
+		int bit = 64;
+		while(saved == index){
+			index = index &  ~(bit >> 1);
+			bit = bit >> 1;
+		}
+		return index;
+	}
+	*/
+	private int size(int size){
+		int saved = size;
+		int bit = 64;
+		while(saved == size){
+			saved = saved &  ~(bit >> 1);
+			bit = bit >> 1;
+		}
+		bit = bit << 1;
+		return bit;
+	}
+}

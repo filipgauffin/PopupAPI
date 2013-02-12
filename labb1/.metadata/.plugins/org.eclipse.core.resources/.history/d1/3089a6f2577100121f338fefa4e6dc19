@@ -1,0 +1,39 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
+/**
+ * 
+ * @author Filip Gauffin, filipgau@kth.se
+ *
+ * Reads two lines of text and tries to find the occurences of the fist line in the second line.
+ * The indices of the occurences is printet to stout.
+ * Matches for as longs as there is input
+ *
+ */
+public class Main {
+	public static void main(String[] args) throws FileNotFoundException{
+		//Kattio io = new Kattio(new FileInputStream("test/test2"), System.out);
+		Kattio io = new Kattio(System.in, System.out);
+		
+		long time = System.currentTimeMillis();
+		
+		String pattern, text;
+		ArrayList<Integer> res;
+		while((pattern = io.getLine()) != null){
+			text = io.getLine();
+			
+			res = StringMatching.find(pattern, text);
+			
+			for(Integer i : res){
+				io.print(i + " ");
+			}
+			io.println();
+		}
+		
+		System.out.println("Time: " + (System.currentTimeMillis() - time));
+		
+		io.close();
+		
+	}
+}
